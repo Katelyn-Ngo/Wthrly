@@ -1,0 +1,134 @@
+body {
+  background: rgb(208, 231, 239);
+  font-family: 'Times New Roman', Times, serif;
+
+  /* display: flex; */
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+div[data-view='weather-app'] {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+/* #weather-form {
+  display: flex;
+  justify-content: space-between;
+
+} */
+
+button {
+  color: gray;
+  cursor: pointer;
+
+  /* padding: 10px; */
+  background-color: white;
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  border-style: none;
+  margin: 10px;
+}
+
+button:hover {
+  background: lightblue;
+}
+
+input {
+  border-style: none;
+  padding: 16px;
+  border-radius: 10px;
+}
+
+#weather-icon {
+  /* display: none; */
+  width: 200px;
+  height: 200px;
+  margin: 0 auto 10px;
+  margin-bottom: 0;
+}
+
+#magnifying-glass {
+  font-size: 25px;
+}
+
+#favorites-button {
+  color: rgb(177, 27, 27);
+  font-size: 25px;
+}
+
+/* .container {
+  padding: 20px;
+  text-align: center;
+} */
+
+.cloud {
+  background-color: #fff;
+  background-image: linear-gradient(rgb(203, 190, 190));
+
+  /* background-image: linear-gradient(
+    hsla(0deg, 0%, 0%, 0),
+    hsla(0deg, 0%, 0%, 0.1)
+  ); */
+  border-radius: 1em;
+
+  /* box-shadow: inset 0 0 0 1px hsla(0deg, 0%, 100%, 0.5); */
+
+  /* display: inline-block; */
+  height: 1em;
+
+  /* left: 50%; */
+
+  /* margin-left: -1.5em; */
+  position: relative;
+
+  /* top: 50%; */
+
+  width: 3em;
+  filter: drop-shadow(0 2px 3px hsla(0deg, 0%, 0%, 0.25));
+}
+
+.cloud::after,
+.cloud::before {
+  background-color: #fff;
+  content: '';
+  border-radius: 100%;
+  position: absolute;
+}
+
+.cloud::after {
+  background-image: linear-gradient(
+    hsla(0deg, 0%, 0%, 0) 50%,
+    hsla(0deg, 0%, 0%, 0.025)
+  );
+  height: 1em;
+  right: 0.4em;
+  top: -0.5em;
+  width: 1em;
+}
+
+.cloud::before {
+  background-image: linear-gradient(
+    hsla(0deg, 0%, 0%, 0) 50%,
+    hsla(0deg, 0%, 0%, 0.075)
+  );
+  height: 1.6em;
+  left: 0.4em;
+  top: -0.75em;
+  width: 1.6em;
+}
+
+/* .row {
+  display: flex;
+} */
+
+/* .bg-night {
+  background-color: lightslategray;
+} */
+
+@media (width >= 768px);

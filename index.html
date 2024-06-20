@@ -1,20 +1,63 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AJAX Project</title>
-  <link rel="icon" href="images/favicon.ico">
-  <link rel="stylesheet" href="css/reset.css">
-  <link rel="stylesheet" href="css/layout.css">
-  <link rel="stylesheet" href="css/styles.css">
-</head>
-<body>
-  <header>
-  </header>
-  <main>
-  </main>
-  <script src="js/data.js"></script>
-  <script src="js/main.js"></script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AJAX Project</title>
+    <link rel="icon" href="images/favicon.ico" />
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/layout.css" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer" />
+  </head>
+  <body>
+    <header></header>
+    <main>
+      <div class="container">
+        <!-- Weather App Main View -->
+
+        <div data-view="weather-app">
+          <!-- Search Form -->
+          <div class="cloud" id="cloud1"></div>
+          <div class="cloud" id="cloud2"></div>
+
+          <form id="weather-form">
+            <input
+              type="text"
+              id="location-input"
+              placeholder="Search"
+              required />
+            <button type="submit" id="magnifying-glass">
+              <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+            <button type="button" id="favorites-button">
+              <i class="fa-solid fa-heart"></i>
+            </button>
+          </form>
+        </div>
+        <!-- Weather Display View -->
+
+        <div data-view="weather-display" class="hidden">
+          <!-- <button id="back-button">Back</button> -->
+          <div id="weather-data">
+            <!-- Weather data will be displayed here -->
+          </div>
+        </div>
+        <!-- Favorite Locations View -->
+        <div data-view="favorite-locations" class="hidden">
+          <!-- <button id="back-to-weather-button">Back</button> -->
+          <div id="favorite-locations-list">
+            <!-- Favorite locations will be displayed here -->
+          </div>
+        </div>
+      </div>
+    </main>
+    <script src="js/data.js"></script>
+    <script src="js/main.js"></script>
+  </body>
 </html>
