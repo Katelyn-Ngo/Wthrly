@@ -18,15 +18,11 @@
   <body>
     <header></header>
     <main>
-      <div class="container">
+      <div class="row container">
         <!-- Weather App Main View -->
-
-        <div data-view="weather-app">
+        <div class="row2" data-view="weather-app">
           <!-- Search Form -->
-          <div class="cloud" id="cloud1"></div>
-          <div class="cloud" id="cloud2"></div>
-
-          <form id="weather-form">
+          <form class="row" id="weather-form">
             <input
               type="text"
               id="location-input"
@@ -35,22 +31,53 @@
             <button type="submit" id="magnifying-glass">
               <i class="fa-solid fa-magnifying-glass"></i>
             </button>
-            <button type="button" id="favorites-button">
+            <button type="button" class="hidden" id="favorites-button">
               <i class="fa-solid fa-heart"></i>
             </button>
           </form>
         </div>
-        <!-- Weather Display View -->
 
-        <div data-view="weather-display" class="hidden">
-          <!-- <button id="back-button">Back</button> -->
+        <!-- Weather Display View -->
+        <div class="hidden" data-view="weather-display">
+          <div class="row top-section">
+            <a href="#" id="back-button"> Back </a>
+            <form id="weather-form2">
+              <div class="search-section">
+                <input id="location-input2" type="text" placeholder="Search" />
+                <button>
+                  <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+                <button type="button" class="hidden" id="favorites-button2">
+                  <i class="fa-solid fa-heart"></i>
+                </button>
+              </div>
+            </form>
+          </div>
           <div id="weather-data">
-            <!-- Weather data will be displayed here -->
+            <div class="weather-icon">
+              <img class="weather-img" src="" alt="" />
+            </div>
+            <h1 class="city-name"></h1>
+            <p class="weather-description"></p>
+            <h1 class="temperature"></h1>
+            <div class="row bottom-section">
+              <div class="row humidity-section">
+                <i id="blue" class="fa-solid fa-droplet"></i>
+                <p class="humidity"></p>
+              </div>
+              <div class="row wind-speed-section">
+                <i id="blue2" class="fa-solid fa-wind"></i>
+                <p class="wind-speed"></p>
+              </div>
+            </div>
           </div>
         </div>
+
         <!-- Favorite Locations View -->
         <div data-view="favorite-locations" class="hidden">
-          <!-- <button id="back-to-weather-button">Back</button> -->
+          <button id="back-to-weather-button" onclick="swapView('weather-app')">
+            Back
+          </button>
           <div id="favorite-locations-list">
             <!-- Favorite locations will be displayed here -->
           </div>
