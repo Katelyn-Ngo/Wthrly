@@ -1,37 +1,19 @@
-const $weatherAppDiv = document.querySelector(
-  '[data-view="weather-app"]',
-) as HTMLDivElement;
-const $weatherDisplay = document.querySelector(
-  '[data-view="weather-display"]',
-) as HTMLDivElement;
-const $weatherForm = document.querySelector('#weather-form') as HTMLFormElement;
-const $locationInput = document.querySelector(
-  'input[type="text"]',
-) as HTMLInputElement;
-const $cityName = document.querySelector('.city-name') as HTMLHeadingElement;
-const $weatherDescription = document.querySelector(
-  '.weather-description',
-) as HTMLParagraphElement;
-const $weatherImg = document.querySelector('.weather-img') as HTMLImageElement;
-const $temperature = document.querySelector(
-  '.temperature',
-) as HTMLHeadingElement;
-const $humidity = document.querySelector('.humidity') as HTMLParagraphElement;
-const $windSpeed = document.querySelector(
-  '.wind-speed',
-) as HTMLParagraphElement;
-const $weatherDataDiv = document.getElementById(
-  'weather-data',
-) as HTMLDivElement;
-const $weatherForm2 = document.querySelector(
-  '#weather-form2',
-) as HTMLFormElement;
-const $locationInput2 = document.querySelector(
-  '#location-input2',
-) as HTMLInputElement;
-const $backButton = document.querySelector('#back-button') as HTMLAnchorElement;
-const $background = document.querySelector('body') as HTMLBodyElement;
-
+'use strict';
+const $weatherAppDiv = document.querySelector('[data-view="weather-app"]');
+const $weatherDisplay = document.querySelector('[data-view="weather-display"]');
+const $weatherForm = document.querySelector('#weather-form');
+const $locationInput = document.querySelector('input[type="text"]');
+const $cityName = document.querySelector('.city-name');
+const $weatherDescription = document.querySelector('.weather-description');
+const $weatherImg = document.querySelector('.weather-img');
+const $temperature = document.querySelector('.temperature');
+const $humidity = document.querySelector('.humidity');
+const $windSpeed = document.querySelector('.wind-speed');
+const $weatherDataDiv = document.getElementById('weather-data');
+const $weatherForm2 = document.querySelector('#weather-form2');
+const $locationInput2 = document.querySelector('#location-input2');
+const $backButton = document.querySelector('#back-button');
+const $background = document.querySelector('body');
 if (!$background) throw new Error('background query failed');
 if (!$backButton) throw new Error('back button query failed');
 if (!$locationInput2) throw new Error('Weather input 2 query failed');
@@ -46,26 +28,21 @@ if (!$weatherImg) throw new Error('weather image query failed');
 if (!$temperature) throw new Error('temperature query failed');
 if (!$humidity) throw new Error('humidity query failed');
 if (!$windSpeed) throw new Error('wind speed query failed');
-
 const apiKey = 'b03d66ceebc0a945c3eb2bb9cc3551d1';
-
-$weatherForm.addEventListener('submit', async (event: Event) => {
+$weatherForm.addEventListener('submit', async (event) => {
   event.preventDefault();
   const location = $locationInput.value;
   await fetchData(location);
 });
-
-$weatherForm2.addEventListener('submit', async (event: Event) => {
+$weatherForm2.addEventListener('submit', async (event) => {
   event.preventDefault();
   const location = $locationInput2.value;
   await fetchData(location);
 });
-
 $backButton.addEventListener('click', () => {
   swapView('weather-app');
 });
-
-async function fetchData(location: string): Promise<void> {
+async function fetchData(location) {
   try {
     const response = await fetch(
       `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${apiKey}&units=imperial`,
@@ -81,27 +58,16 @@ async function fetchData(location: string): Promise<void> {
     console.error('Error:', error);
   }
 }
-
-interface WeatherData {
-  weather: { description: string; main: string }[];
-  main: { temp: number; humidity: number };
-  wind: { speed: number };
-  name: string;
-}
-
-function displayWeatherData(data: WeatherData): void {
+function displayWeatherData(data) {
   let weatherImage = '';
   $weatherDescription.textContent = data.weather[0].description;
   const weatherCondition = data.weather[0].main.toLowerCase();
   $cityName.textContent = data.name;
   $weatherImg.alt = data.weather[0].description;
-
   const roundedTemperature = Math.round(data.main.temp);
   $temperature.textContent = `${roundedTemperature} °F`;
-
   $humidity.textContent = `Humidity: ${data.main.humidity}%`;
   $windSpeed.textContent = `Wind Speed: ${data.wind.speed} mph`;
-
   switch (weatherCondition) {
     case 'clear':
       $background.className = 'bg-clear';
@@ -124,12 +90,10 @@ function displayWeatherData(data: WeatherData): void {
     default:
       weatherImage = 'images/default.png';
   }
-
   $weatherImg.src = weatherImage;
   $weatherImg.alt = `Icon of weather for ${weatherCondition} weather`;
 }
-
-function swapView(view: string): void {
+function swapView(view) {
   if (view === 'weather-display') {
     $weatherAppDiv.classList.add('hidden');
     $weatherDisplay.classList.remove('hidden');

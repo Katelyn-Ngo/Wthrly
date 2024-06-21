@@ -1,0 +1,143 @@
+body {
+  background: rgb(208, 231, 239);
+  font-family: 'Times New Roman', Times, serif;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.container {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+button {
+  color: gray;
+  cursor: pointer;
+  background-color: white;
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  border-style: none;
+  margin: 10px;
+}
+
+button:hover {
+  background: white;
+}
+
+#back-button {
+  text-decoration: none;
+  color: gray;
+  cursor: pointer;
+  background-color: white;
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  margin-right: 10px;
+  padding-top: 10px;
+  padding-left: 6px;
+}
+
+input {
+  border-style: none;
+  padding: 16px;
+  border-radius: 10px;
+}
+
+#favorites-button,
+#favorites-button2 {
+  color: rgb(177, 27, 27);
+  font-size: 25px;
+}
+
+#blue,
+#blue2 {
+  color: rgb(74, 144, 226);
+  font-size: 45px;
+  margin-left: 10px;
+  margin-bottom: 30px;
+}
+
+.hidden {
+  display: none;
+}
+
+#weather-form {
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+#weather-data {
+  margin-bottom: 70px;
+}
+
+.top-section {
+  align-items: center;
+  justify-content: center;
+}
+
+.search-section {
+  display: flex;
+  align-items: center;
+}
+
+.weather-icon {
+  margin: 20px 0;
+}
+
+.weather-img {
+  text-align: center;
+  display: block;
+  margin-top: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 50%;
+  max-height: 80%;
+}
+
+h1 {
+  text-align: center;
+  font-weight: 50;
+  font-size: 50px;
+  color: white;
+}
+
+p {
+  text-align: center;
+  font-size: 20px;
+  color: white;
+}
+
+.bottom-section {
+  justify-content: space-between;
+  width: 100%;
+}
+
+.humidity-section,
+.wind-speed-section {
+  align-items: center;
+}
+
+.humidity-section i,
+.wind-speed-section i {
+  margin-right: 10px;
+  margin-bottom: 20px;
+}
+
+.bg-clear {
+  background-color: rgb(208, 231, 239);
+}
+
+.bg-clouds {
+  background-color: rgb(195, 199, 202);
+}
+
+.bg-rain {
+  background-color: rgb(94, 159, 187);
+}
+
+@media screen and (width >=768px);
