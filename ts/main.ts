@@ -4,7 +4,7 @@ const $weatherAppDiv = document.querySelector(
 const $weatherDisplay = document.querySelector(
   '[data-view="weather-display"]',
 ) as HTMLDivElement;
-const $form = document.querySelector('form') as HTMLFormElement;
+const $weatherForm = document.querySelector('#weather-form') as HTMLFormElement;
 const $locationInput = document.querySelector(
   'input[type="text"]',
 ) as HTMLInputElement;
@@ -38,7 +38,7 @@ if (!$locationInput2) throw new Error('Weather input 2 query failed');
 if (!$weatherForm2) throw new Error('Weather form 2 query failed');
 if (!$weatherDisplay) throw new Error('weather display query failed');
 if (!$weatherDataDiv) throw new Error('weather data div query failed');
-if (!$form) throw new Error('form query failed');
+if (!$weatherForm) throw new Error('form query failed');
 if (!$locationInput) throw new Error('location input query failed');
 if (!$cityName) throw new Error('city name query failed');
 if (!$weatherDescription) throw new Error('weather description query failed');
@@ -49,7 +49,7 @@ if (!$windSpeed) throw new Error('wind speed query failed');
 
 const apiKey = 'b03d66ceebc0a945c3eb2bb9cc3551d1';
 
-$form.addEventListener('submit', async (event: Event) => {
+$weatherForm.addEventListener('submit', async (event: Event) => {
   event.preventDefault();
   const location = $locationInput.value;
   await fetchData(location);
@@ -78,7 +78,7 @@ async function fetchData(location: string): Promise<void> {
     swapView('weather-display');
     $locationInput.value = '';
   } catch (error) {
-    console.log('Error:', error);
+    console.error('Error:', error);
   }
 }
 
@@ -90,7 +90,6 @@ interface WeatherData {
 }
 
 function displayWeatherData(data: WeatherData): void {
-  console.log(data);
   let weatherImage = '';
   $weatherDescription.textContent = data.weather[0].description;
   const weatherCondition = data.weather[0].main.toLowerCase();
@@ -127,6 +126,7 @@ function displayWeatherData(data: WeatherData): void {
   }
 
   $weatherImg.src = weatherImage;
+  $weatherImg.alt = `Icon of weather for ${weatherCondition} weather`;
 }
 
 function swapView(view: string): void {

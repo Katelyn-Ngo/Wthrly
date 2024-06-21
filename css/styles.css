@@ -13,11 +13,6 @@ body {
   height: 100vh;
 }
 
-.row2 {
-  width: 100%;
-  text-align: center;
-}
-
 button {
   color: gray;
   cursor: pointer;
@@ -66,14 +61,6 @@ input {
   margin-bottom: 30px;
 }
 
-/* input {
-  padding: 10px;
-  font-size: 16px;
-  border: 2px solid #ccc;
-  border-radius: 5px;
-  margin-right: 10px;
-} */
-
 .hidden {
   display: none;
 }
@@ -103,8 +90,6 @@ input {
 }
 
 .weather-img {
-  /* width: 100px;
-  height: 100px; */
   text-align: center;
   display: block;
   margin-top: 10px;
@@ -128,7 +113,7 @@ p {
 }
 
 .bottom-section {
-  justify-content: space-around;
+  justify-content: space-between;
   width: 100%;
 }
 
@@ -155,8 +140,4 @@ p {
   background-color: rgb(94, 159, 187);
 }
 
-@media screen and (width >=768px) {
-  body {
-    background-color: rgb(208, 231, 239);
-  }
-}
+@media screen and (width >=768px);

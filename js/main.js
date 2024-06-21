@@ -1,7 +1,7 @@
 'use strict';
 const $weatherAppDiv = document.querySelector('[data-view="weather-app"]');
 const $weatherDisplay = document.querySelector('[data-view="weather-display"]');
-const $form = document.querySelector('form');
+const $weatherForm = document.querySelector('#weather-form');
 const $locationInput = document.querySelector('input[type="text"]');
 const $cityName = document.querySelector('.city-name');
 const $weatherDescription = document.querySelector('.weather-description');
@@ -20,7 +20,7 @@ if (!$locationInput2) throw new Error('Weather input 2 query failed');
 if (!$weatherForm2) throw new Error('Weather form 2 query failed');
 if (!$weatherDisplay) throw new Error('weather display query failed');
 if (!$weatherDataDiv) throw new Error('weather data div query failed');
-if (!$form) throw new Error('form query failed');
+if (!$weatherForm) throw new Error('form query failed');
 if (!$locationInput) throw new Error('location input query failed');
 if (!$cityName) throw new Error('city name query failed');
 if (!$weatherDescription) throw new Error('weather description query failed');
@@ -29,7 +29,7 @@ if (!$temperature) throw new Error('temperature query failed');
 if (!$humidity) throw new Error('humidity query failed');
 if (!$windSpeed) throw new Error('wind speed query failed');
 const apiKey = 'b03d66ceebc0a945c3eb2bb9cc3551d1';
-$form.addEventListener('submit', async (event) => {
+$weatherForm.addEventListener('submit', async (event) => {
   event.preventDefault();
   const location = $locationInput.value;
   await fetchData(location);
@@ -39,7 +39,7 @@ $weatherForm2.addEventListener('submit', async (event) => {
   const location = $locationInput2.value;
   await fetchData(location);
 });
-$backButton.addEventListener('click', (event) => {
+$backButton.addEventListener('click', () => {
   swapView('weather-app');
 });
 async function fetchData(location) {
@@ -55,11 +55,10 @@ async function fetchData(location) {
     swapView('weather-display');
     $locationInput.value = '';
   } catch (error) {
-    console.log('Error:', error);
+    console.error('Error:', error);
   }
 }
 function displayWeatherData(data) {
-  console.log(data);
   let weatherImage = '';
   $weatherDescription.textContent = data.weather[0].description;
   const weatherCondition = data.weather[0].main.toLowerCase();
@@ -92,6 +91,7 @@ function displayWeatherData(data) {
       weatherImage = 'images/default.png';
   }
   $weatherImg.src = weatherImage;
+  $weatherImg.alt = `Icon of weather for ${weatherCondition} weather`;
 }
 function swapView(view) {
   if (view === 'weather-display') {
