@@ -30,25 +30,32 @@
             <button type="submit" id="magnifying-glass">
               <i class="fa-solid fa-magnifying-glass"></i>
             </button>
-            <button type="button" class="hidden" id="favorites-button">
+            <a href="#" id="favorites-button">
               <i class="fa-solid fa-heart"></i>
-            </button>
+            </a>
           </form>
+          <div class="hidden" id="location-list">
+            <!--rendered locations will be added here-->
+          </div>
         </div>
 
         <!-- Weather Display View -->
         <div class="hidden" data-view="weather-display">
           <div class="row top-section">
             <a href="#" id="back-button"> Back </a>
+            <!-- <a href="#" id="favorites-button3" -->
+            <!-- ><i class="fa-solid fa-heart"></i
+            ></a> -->
+
             <form id="weather-form2">
               <div class="search-section">
                 <input id="location-input2" type="text" placeholder="Search" />
                 <button>
                   <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
-                <button type="button" class="hidden" id="favorites-button2">
+                <a href="#" class="hidden" id="favorites-button2">
                   <i class="fa-solid fa-heart"></i>
-                </button>
+                </a>
               </div>
             </form>
           </div>
@@ -58,7 +65,12 @@
             </div>
             <h1 class="city-name"></h1>
             <p class="weather-description"></p>
-            <h1 class="temperature"></h1>
+            <div class="temperature-section">
+              <div class="favorite-heart">
+                <i class="fa-regular fa-heart" id="favorite-heart"></i>
+              </div>
+              <h1 class="temperature"></h1>
+            </div>
             <div class="row bottom-section">
               <div class="row humidity-section">
                 <i id="blue" class="fa-solid fa-droplet"></i>
@@ -74,9 +86,12 @@
 
         <!-- Favorite Locations View -->
         <div data-view="favorite-locations" class="hidden">
-          <button id="back-to-weather-button" onclick="swapView('weather-app')">
+          <a
+            href="#"
+            id="back-to-weather-button"
+            onclick="swapView('weather-app')">
             Back
-          </button>
+          </a>
           <div id="favorite-locations-list">
             <!-- Favorite locations will be displayed here -->
           </div>
