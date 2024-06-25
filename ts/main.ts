@@ -31,7 +31,29 @@ const $locationInput2 = document.querySelector(
 ) as HTMLInputElement;
 const $backButton = document.querySelector('#back-button') as HTMLAnchorElement;
 const $background = document.querySelector('body') as HTMLBodyElement;
+const $locationList = document.querySelector(
+  '#location-list',
+) as HTMLDivElement;
+const $favoritesButton = document.querySelector(
+  '#favorites-button',
+) as HTMLAnchorElement;
+const $favoritesButton2 = document.querySelector(
+  '#favorites-button2',
+) as HTMLAnchorElement;
 
+const $backToWeatherButton = document.querySelector(
+  '#back-to-weather-button',
+) as HTMLAnchorElement;
+const $favoriteHeart = document.querySelector(
+  '#favorite-heart',
+) as HTMLSpanElement;
+
+if (!$favoriteHeart) throw new Error('favorite heart query failed');
+if (!$backToWeatherButton)
+  throw new Error('back to weather button query failed');
+if (!$favoritesButton2) throw new Error('favorites button2 query failed');
+if (!$favoritesButton) throw new Error('favorites button query failed');
+if (!$locationList) throw new Error('location list query failed');
 if (!$background) throw new Error('background query failed');
 if (!$backButton) throw new Error('back button query failed');
 if (!$locationInput2) throw new Error('Weather input 2 query failed');
@@ -48,6 +70,12 @@ if (!$humidity) throw new Error('humidity query failed');
 if (!$windSpeed) throw new Error('wind speed query failed');
 
 const apiKey = 'b03d66ceebc0a945c3eb2bb9cc3551d1';
+let currentWeather: WeatherData = {
+  weather: [{ description: '', main: '' }],
+  main: { temp: 0, humidity: 0 },
+  wind: { speed: 0 },
+  name: '',
+};
 
 $weatherForm.addEventListener('submit', async (event: Event) => {
   event.preventDefault();
@@ -65,6 +93,15 @@ $backButton.addEventListener('click', () => {
   swapView('weather-app');
 });
 
+$favoritesButton.addEventListener('click', () => {
+  swapView('favorite-locations');
+});
+
+$backToWeatherButton.addEventListener('click', (event: Event) => {
+  event.preventDefault();
+  swapView('weather-app');
+});
+
 async function fetchData(location: string): Promise<void> {
   try {
     const response = await fetch(
@@ -73,8 +110,10 @@ async function fetchData(location: string): Promise<void> {
     if (!response.ok) {
       throw new Error('HTTP Error');
     }
-    const data = await response.json();
-    displayWeatherData(data);
+    const data: WeatherData = await response.json();
+    currentWeather = data;
+
+    displayWeatherData(currentWeather);
     swapView('weather-display');
     $locationInput.value = '';
   } catch (error) {
@@ -82,25 +121,18 @@ async function fetchData(location: string): Promise<void> {
   }
 }
 
-interface WeatherData {
-  weather: { description: string; main: string }[];
-  main: { temp: number; humidity: number };
-  wind: { speed: number };
-  name: string;
-}
-
-function displayWeatherData(data: WeatherData): void {
+function displayWeatherData(weatherData: WeatherData): void {
   let weatherImage = '';
-  $weatherDescription.textContent = data.weather[0].description;
-  const weatherCondition = data.weather[0].main.toLowerCase();
-  $cityName.textContent = data.name;
-  $weatherImg.alt = data.weather[0].description;
+  $weatherDescription.textContent = weatherData.weather[0].description;
+  const weatherCondition = weatherData.weather[0].main.toLowerCase();
+  $cityName.textContent = weatherData.name;
+  $weatherImg.alt = weatherData.weather[0].description;
 
-  const roundedTemperature = Math.round(data.main.temp);
+  const roundedTemperature = Math.round(weatherData.main.temp);
   $temperature.textContent = `${roundedTemperature} °F`;
 
-  $humidity.textContent = `Humidity: ${data.main.humidity}%`;
-  $windSpeed.textContent = `Wind Speed: ${data.wind.speed} mph`;
+  $humidity.textContent = `Humidity: ${weatherData.main.humidity}%`;
+  $windSpeed.textContent = `Wind Speed: ${weatherData.wind.speed} mph`;
 
   switch (weatherCondition) {
     case 'clear':
@@ -118,6 +150,7 @@ function displayWeatherData(data: WeatherData): void {
       weatherImage = 'images/rainy.png';
       break;
     case 'windy':
+    case 'smoke':
       $background.className = '';
       weatherImage = 'images/windy.png';
       break;
@@ -127,6 +160,11 @@ function displayWeatherData(data: WeatherData): void {
 
   $weatherImg.src = weatherImage;
   $weatherImg.alt = `Icon of weather for ${weatherCondition} weather`;
+
+  for (let i = 0; i < data.favorites.length; i++) {
+    if (data.favorites[i].name === weatherData.name)
+      $favoriteHeart.classList.add('favorite-heart');
+  }
 }
 
 function swapView(view: string): void {
@@ -137,4 +175,70 @@ function swapView(view: string): void {
     $weatherDisplay.classList.add('hidden');
     $weatherAppDiv.classList.remove('hidden');
   }
+  //   else if (view === 'favorite-locations') {
+  //     $weatherAppDiv.classList.add('hidden');
+  //     $weatherDisplay.classList.add('hidden');
+  //     document
+  //       .querySelector('[data-view="favorite-locations"]')
+  //       ?.classList.remove('hidden');
+  //     renderFavoriteLocations();
+  //   }
+  // for later feature to hide weather display and weather app when swap view to favorite location
 }
+
+// function addLocationToList(location: string): void {
+//   const locationDiv = document.createElement('div');
+//   locationDiv.classList.add('location-item');
+//   locationDiv.textContent = location;
+
+//   const favoriteIcon = document.createElement('i');
+//   favoriteIcon.classList.add('fa-solid', 'fa-heart', 'favorite-icon');
+//   if (data.favorites.includes(location)) {
+//     favoriteIcon.classList.add('favorite-heart');
+//   }
+
+//   locationDiv.appendChild(favoriteIcon);
+//   $locationList.appendChild(locationDiv);
+// }
+// for later feature to add location to favorite list.
+
+$favoriteHeart.addEventListener('click', () => {
+  toggleFavorite(currentWeather);
+});
+
+function toggleFavorite(current: WeatherData): void {
+  if (!data.favorites.length) {
+    data.favorites.push(current);
+
+    $favoriteHeart.classList.add('favorite-heart');
+    $favoriteHeart.classList.add('fa-solid');
+    $favoriteHeart.classList.remove('fa-regular');
+  } else if (data.favorites.includes(current)) {
+    $favoriteHeart.classList.add('fa-regular');
+    $favoriteHeart.classList.remove('fa-solid');
+    // remove object from array
+  } else {
+    data.favorites.push(current);
+
+    $favoriteHeart.classList.add('favorite-heart');
+    $favoriteHeart.classList.add('fa-solid');
+    $favoriteHeart.classList.remove('fa-regular');
+  }
+}
+
+// if(data.favorites.includes(current)) /// use this for remove feature later.
+
+// function renderFavoriteLocations(): void {
+//   const $favoriteLocationsList = document.getElementById(
+//     'favorite-locations-list',
+//   ) as HTMLDivElement;
+//   $favoriteLocationsList.innerHTML = '';
+//   data.favorites.forEach((location) => {
+//     const locationDiv = document.createElement('div');
+//     locationDiv.classList.add('favorite-location-item');
+//     locationDiv.textContent = location;
+//     $favoriteLocationsList.appendChild(locationDiv);
+//   });
+// }
+
+// future feature for rendering favorite locations.
