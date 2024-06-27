@@ -1,4 +1,7 @@
 'use strict';
+let data = {
+  favorites: [],
+};
 const $weatherAppDiv = document.querySelector('[data-view="weather-app"]');
 const $weatherDisplay = document.querySelector('[data-view="weather-display"]');
 const $weatherForm = document.querySelector('#weather-form');
@@ -17,11 +20,23 @@ const $background = document.querySelector('body');
 const $locationList = document.querySelector('#location-list');
 const $favoritesButton = document.querySelector('#favorites-button');
 const $favoritesButton2 = document.querySelector('#favorites-button2');
-const $backToWeatherButton = document.querySelector('#back-to-weather-button');
+const $backToWeatherFromFavorites = document.querySelector(
+  '#back-to-weather-from-favorites',
+);
 const $favoriteHeart = document.querySelector('#favorite-heart');
+const $favoriteLocationsList = document.querySelector(
+  '[data-view="favorite-locations"]',
+);
+const $favoriteLocationsContent = document.querySelector(
+  '#favorite-locations-content',
+);
+if (!$favoriteLocationsContent)
+  throw new Error('favorite location content query failed');
+if (!$favoriteLocationsList)
+  throw new Error('favorite locations list query failed');
 if (!$favoriteHeart) throw new Error('favorite heart query failed');
-if (!$backToWeatherButton)
-  throw new Error('back to weather button query failed');
+if (!$backToWeatherFromFavorites)
+  throw new Error('back to weather from favorites query failed');
 if (!$favoritesButton2) throw new Error('favorites button2 query failed');
 if (!$favoritesButton) throw new Error('favorites button query failed');
 if (!$locationList) throw new Error('location list query failed');
@@ -41,8 +56,8 @@ if (!$humidity) throw new Error('humidity query failed');
 if (!$windSpeed) throw new Error('wind speed query failed');
 const apiKey = 'b03d66ceebc0a945c3eb2bb9cc3551d1';
 let currentWeather = {
-  weather: [{ description: '', main: '' }],
-  main: { temp: 0, humidity: 0 },
+  weather: [{ description: '', main: '', icon: '' }],
+  main: { temp: 0, humidity: 0, temp_min: 0, temp_max: 0 },
   wind: { speed: 0 },
   name: '',
 };
@@ -62,7 +77,7 @@ $backButton.addEventListener('click', () => {
 $favoritesButton.addEventListener('click', () => {
   swapView('favorite-locations');
 });
-$backToWeatherButton.addEventListener('click', (event) => {
+$backToWeatherFromFavorites.addEventListener('click', (event) => {
   event.preventDefault();
   swapView('weather-app');
 });
@@ -76,6 +91,8 @@ async function fetchData(location) {
     }
     const data = await response.json();
     currentWeather = data;
+    $favoriteHeart.classList.add('fa-regular');
+    $favoriteHeart.classList.remove('fa-solid');
     displayWeatherData(currentWeather);
     swapView('weather-display');
     $locationInput.value = '';
@@ -119,72 +136,146 @@ function displayWeatherData(weatherData) {
   $weatherImg.src = weatherImage;
   $weatherImg.alt = `Icon of weather for ${weatherCondition} weather`;
   for (let i = 0; i < data.favorites.length; i++) {
-    if (data.favorites[i].name === weatherData.name)
-      $favoriteHeart.classList.add('favorite-heart');
+    if (data.favorites[i].name === weatherData.name) {
+      $favoriteHeart.classList.add('fa-solid');
+      $favoriteHeart.classList.remove('fa-regular');
+    }
+  }
+}
+$favoriteHeart.addEventListener('click', () => {
+  toggleFavorite(currentWeather);
+});
+function toggleFavorite(current) {
+  let isFavorite = false;
+  for (let i = 0; i < data.favorites.length; i++) {
+    if (data.favorites[i].name === current.name) {
+      isFavorite = true;
+      data.favorites.splice(i, 1);
+      renderFavoriteLocations();
+      break;
+    }
+  }
+  if (isFavorite) {
+    $favoriteHeart.classList.add('fa-regular');
+    $favoriteHeart.classList.remove('fa-solid');
+  } else {
+    const newFavorite = {
+      name: current.name,
+      description: current.weather[0].description,
+      temp: current.main.temp,
+      tempMin: current.main.temp_min,
+      tempMax: current.main.temp_max,
+      icon: current.weather[0].main.toLowerCase(),
+    };
+    data.favorites.push(newFavorite);
+    $favoriteHeart.classList.add('favorite-heart');
+    $favoriteHeart.classList.remove('favorite-heart');
+    $favoriteHeart.classList.add('fa-solid');
+    $favoriteHeart.classList.remove('fa-regular');
+    renderFavoriteLocations(); // Update the DOM
+  }
+}
+function renderFavoriteLocations() {
+  const $favoriteLocationsContent = document.querySelector(
+    '#favorite-locations-content',
+  );
+  if (!$favoriteLocationsContent) {
+    console.error('favorite location content query failed');
+    return;
+  }
+  while ($favoriteLocationsContent.firstChild) {
+    $favoriteLocationsContent.removeChild($favoriteLocationsContent.firstChild);
+  }
+  if (data.favorites.length === 0) {
+    const noFavoritesMessage = document.createElement('p');
+    noFavoritesMessage.textContent = 'No favorite locations yet.';
+    $favoriteLocationsContent.appendChild(noFavoritesMessage);
+  } else {
+    data.favorites.forEach((location, index) => {
+      console.log('location data:', location);
+      const locationDiv = document.createElement('div');
+      locationDiv.classList.add('favorite-location-card');
+      const header = document.createElement('div');
+      header.className = 'header';
+      const locationName = document.createElement('h2');
+      locationName.textContent = location.name;
+      header.appendChild(locationName);
+      const removeButton = document.createElement('i');
+      removeButton.className = 'fa-solid fa-xmark remove-button';
+      removeButton.onclick = () => {
+        data.favorites.splice(index, 1);
+        renderFavoriteLocations();
+      };
+      locationDiv.appendChild(removeButton);
+      locationDiv.appendChild(header);
+      const weatherInfo = document.createElement('div');
+      weatherInfo.className = 'weather-info';
+      const weatherIcon = document.createElement('img');
+      weatherIcon.src = getWeatherIcon(location.icon);
+      weatherInfo.appendChild(weatherIcon);
+      const temperature = document.createElement('div');
+      temperature.className = 'temperature';
+      temperature.textContent = `${Math.round(location.temp)}°F`;
+      weatherInfo.appendChild(temperature);
+      const tempMinMax = document.createElement('div');
+      tempMinMax.className = 'temp-min-max';
+      tempMinMax.textContent = `H: ${Math.round(location.tempMax)}° L: ${Math.round(location.tempMin)}°`;
+      weatherInfo.appendChild(tempMinMax);
+      const description = document.createElement('div');
+      description.className = 'description';
+      description.textContent = location.description;
+      weatherInfo.appendChild(description);
+      locationDiv.appendChild(weatherInfo);
+      $favoriteLocationsContent.appendChild(locationDiv);
+    });
+  }
+}
+function getWeatherIcon(weatherCondition) {
+  switch (weatherCondition) {
+    case 'clear':
+      return 'images/sunny.png';
+    case 'clouds':
+    case 'haze':
+      return 'images/cloudy.png';
+    case 'rain':
+    case 'drizzle':
+      return 'images/rainy.png';
+    case 'windy':
+    case 'smoke':
+      return 'images/windy.png';
+    default:
+      return 'images/default.png';
   }
 }
 function swapView(view) {
   if (view === 'weather-display') {
     $weatherAppDiv.classList.add('hidden');
     $weatherDisplay.classList.remove('hidden');
+    $favoriteLocationsList.classList.add('hidden');
   } else if (view === 'weather-app') {
-    $weatherDisplay.classList.add('hidden');
-    $weatherAppDiv.classList.remove('hidden');
-  }
-  //   else if (view === 'favorite-locations') {
-  //     $weatherAppDiv.classList.add('hidden');
-  //     $weatherDisplay.classList.add('hidden');
-  //     document
-  //       .querySelector('[data-view="favorite-locations"]')
-  //       ?.classList.remove('hidden');
-  //     renderFavoriteLocations();
-  //   }
-  // for later feature to hide weather display and weather app when swap view to favorite location
-}
-// function addLocationToList(location: string): void {
-//   const locationDiv = document.createElement('div');
-//   locationDiv.classList.add('location-item');
-//   locationDiv.textContent = location;
-//   const favoriteIcon = document.createElement('i');
-//   favoriteIcon.classList.add('fa-solid', 'fa-heart', 'favorite-icon');
-//   if (data.favorites.includes(location)) {
-//     favoriteIcon.classList.add('favorite-heart');
-//   }
-//   locationDiv.appendChild(favoriteIcon);
-//   $locationList.appendChild(locationDiv);
-// }
-// for later feature to add location to favorite list.
-$favoriteHeart.addEventListener('click', () => {
-  toggleFavorite(currentWeather);
-});
-function toggleFavorite(current) {
-  if (!data.favorites.length) {
-    data.favorites.push(current);
-    $favoriteHeart.classList.add('favorite-heart');
-    $favoriteHeart.classList.add('fa-solid');
-    $favoriteHeart.classList.remove('fa-regular');
-  } else if (data.favorites.includes(current)) {
     $favoriteHeart.classList.add('fa-regular');
     $favoriteHeart.classList.remove('fa-solid');
-    //remove object from array
-  } else {
-    data.favorites.push(current);
-    $favoriteHeart.classList.add('favorite-heart');
-    $favoriteHeart.classList.add('fa-solid');
-    $favoriteHeart.classList.remove('fa-regular');
+    $favoriteLocationsList.classList.add('hidden');
+    $weatherDisplay.classList.add('hidden');
+    $weatherAppDiv.classList.remove('hidden');
+    $background.className = '';
+  } else if (view === 'favorite-locations') {
+    $favoriteHeart.classList.add('fa-regular');
+    $favoriteHeart.classList.remove('fa-solid');
+    $weatherAppDiv.classList.add('hidden');
+    $weatherDisplay.classList.add('hidden');
+    $favoriteLocationsList.classList.remove('hidden');
+    $background.className = '';
+    renderFavoriteLocations();
   }
 }
-// if(data.favorites.includes(current)) /// use this for remove feature later.
-// function renderFavoriteLocations(): void {
-//   const $favoriteLocationsList = document.getElementById(
-//     'favorite-locations-list',
-//   ) as HTMLDivElement;
-//   $favoriteLocationsList.innerHTML = '';
-//   data.favorites.forEach((location) => {
-//     const locationDiv = document.createElement('div');
-//     locationDiv.classList.add('favorite-location-item');
-//     locationDiv.textContent = location;
-//     $favoriteLocationsList.appendChild(locationDiv);
-//   });
-// }
-//future feature for rendering favorite locations.
+$favoritesButton2.addEventListener('click', (event) => {
+  event.preventDefault();
+  swapView('favorite-locations');
+});
+$backToWeatherFromFavorites.addEventListener('click', (event) => {
+  event.preventDefault();
+  swapView('weather-app');
+  $weatherAppDiv.classList.remove('hidden');
+});
+renderFavoriteLocations();

@@ -10,7 +10,6 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
 }
 
 button {
@@ -28,7 +27,16 @@ button:hover {
   background: white;
 }
 
-#back-button {
+.weather-app-view {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#back-button,
+#back-to-weather-from-favorites {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -42,17 +50,6 @@ button:hover {
   margin: 10px;
   text-decoration: none;
   font-size: 15px;
-
-  /* text-decoration: none;
-  color: gray;
-  cursor: pointer;
-  background-color: white;
-  border-radius: 50%;
-  width: 45px;
-  height: 45px;
-  margin-right: 10px;
-  padding-top: 10px;
-  padding-left: 6px; */
 }
 
 input {
@@ -179,4 +176,101 @@ p {
   cursor: pointer;
 }
 
-@media screen and (width >=768px);
+.favorite-location-card {
+  background: linear-gradient(to right, #63d3f1, #2ec2f0);
+  border-radius: 10px;
+  padding: 20px;
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.header h2 {
+  margin: 0;
+  font-size: 24px;
+  color: whitesmoke;
+  text-align: center;
+}
+
+.remove-button {
+  font-size: 20px;
+  color: red;
+  cursor: pointer;
+  margin-top: 10px;
+  margin-right: 10px;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.favorite-location-card .weather-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#favorite-locations-list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#favorite-locations-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.favorite-location-card .weather-info img {
+  width: 70px;
+  height: 70px;
+  margin-top: 20px;
+}
+
+.favorite-location-card .weather-info .temperature {
+  margin-left: 10px;
+  font-size: 36px;
+  color: whitesmoke;
+}
+
+.favorite-location-card .weather-info .temp-min-max {
+  font-size: 18px;
+  color: whitesmoke;
+  margin: 10px;
+  padding-left: 10px;
+}
+
+.favorite-location-card .weather-info .description {
+  font-size: 18px;
+  color: whitesmoke;
+  margin: 20px;
+}
+
+@media screen and (width >= 768px) {
+  .favorite-location-card {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .favorite-location-card .weather-info {
+    flex-direction: row;
+  }
+
+  .favorite-location-card .weather-info img {
+    margin-right: 20px;
+  }
+
+  .favorite-location-card .weather-info .temperature {
+    margin-right: 20px;
+  }
+
+  .favorite-location-card .weather-info .temp-min-max {
+    margin-right: 20px;
+  }
+
+  .favorite-location-card .weather-info .description {
+    margin-right: 20px;
+  }
+}
