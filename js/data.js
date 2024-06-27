@@ -1,14 +1,5 @@
 'use strict';
-// interface FavoriteLocation {
-//   name: string;
-//   description: string;
-//   temp: number;
-//   humidity: number;
-//   windSpeed: number;
-// }
-let data = {
-  favorites: [],
-};
+/* exported data*/
 const savedData = localStorage.getItem('weatherAppData');
 if (savedData) {
   data = JSON.parse(savedData);

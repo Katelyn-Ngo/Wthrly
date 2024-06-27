@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AJAX Project</title>
+    <title>Weather App</title>
     <link rel="icon" href="images/favicon.ico" />
     <link rel="stylesheet" href="css/reset.css" />
     <link rel="stylesheet" href="css/layout.css" />
@@ -19,7 +19,7 @@
     <main>
       <div class="row container">
         <!-- Weather App Main View -->
-        <div data-view="weather-app">
+        <div data-view="weather-app" class="weather-app-view">
           <!-- Search Form -->
           <form class="row" id="weather-form">
             <input
@@ -42,15 +42,11 @@
         <!-- Weather Display View -->
         <div class="hidden" data-view="weather-display">
           <div class="row top-section">
-            <a href="#" id="back-button"> Back </a>
-            <!-- <a href="#" id="favorites-button3" -->
-            <!-- ><i class="fa-solid fa-heart"></i
-            ></a> -->
-
+            <a href="#" id="back-button">Back</a>
             <form id="weather-form2">
               <div class="search-section">
                 <input id="location-input2" type="text" placeholder="Search" />
-                <button>
+                <button type="submit">
                   <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
                 <a href="#" class="hidden" id="favorites-button2">
@@ -86,14 +82,10 @@
 
         <!-- Favorite Locations View -->
         <div data-view="favorite-locations" class="hidden">
-          <a
-            href="#"
-            id="back-to-weather-button"
-            onclick="swapView('weather-app')">
-            Back
-          </a>
+          <a href="#" id="back-to-weather-from-favorites">Back</a>
           <div id="favorite-locations-list">
             <!-- Favorite locations will be displayed here -->
+            <div id="favorite-locations-content"></div>
           </div>
         </div>
       </div>
