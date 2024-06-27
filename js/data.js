@@ -1,5 +1,5 @@
 'use strict';
-/* exported data*/
+/* exported data */
 const savedData = localStorage.getItem('weatherAppData');
 if (savedData) {
   data = JSON.parse(savedData);
