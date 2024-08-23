@@ -21,4 +21,4 @@ Experience the Weather App in action [Weather App](https://katelyn-huong.github.
 - **TypeScript** 🟦: Ensures type safety and enhances the development process.
 - **JavaScript** 💻: Handles the dynamic aspects of the application.
 - **DOM Manipulation** 🖼️: Used to dynamically update the user interface based on user interactions and data fetched from the API.
-- **API Integration** 🌐: The app retrieves weather data from the [OpenWeatherMap API](https://api.openweathermap.org/data/2.5/weather?q=Irvine,ca,us,&appid=b03d66ceebc0a945c3eb2bb9cc3551d1&units=imperial) to provide users with accurate weather updates.
+- **API Integration** 🌐: The app retrieves weather data from the [OpenWeatherMap API](https://openweathermap.org/api) to provide users with accurate weather updates.
