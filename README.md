@@ -7,7 +7,7 @@ The Weather App is a web application designed for users who want to quickly and 
 
 ## Live Demo
 
-Experience the Weather App in action [Weather App](https://katelyn-huong.github.io/front-end-project/).
+Experience the Weather App in action [Weather App](https://katelyn-huong.github.io/Wthrly/).
 
 ## Features
 
