@@ -1,7 +1,5 @@
 'use strict';
-let data = {
-  favorites: [],
-};
+/* global data */
 const $weatherAppDiv = document.querySelector('[data-view="weather-app"]');
 const $weatherDisplay = document.querySelector('[data-view="weather-display"]');
 const $weatherForm = document.querySelector('#weather-form');

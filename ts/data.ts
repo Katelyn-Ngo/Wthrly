@@ -1,5 +1,9 @@
 /* exported data */
 
+let data = {
+  favorites: [] as FavoriteLocation[],
+};
+
 const savedData = localStorage.getItem('weatherAppData');
 if (savedData) {
   data = JSON.parse(savedData);

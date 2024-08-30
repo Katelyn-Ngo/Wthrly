@@ -1,3 +1,5 @@
+/* global data */
+
 interface Weather {
   description: string;
   main: string;
@@ -30,10 +32,6 @@ interface FavoriteLocation {
 
   icon: string;
 }
-
-const data = {
-  favorites: [] as FavoriteLocation[],
-};
 
 const $weatherAppDiv = document.querySelector(
   '[data-view="weather-app"]',
